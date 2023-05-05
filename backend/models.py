@@ -40,6 +40,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    role_id = models.IntegerField(default=3)
     created_datetime = models.DateTimeField(auto_now_add=True)
     created_ip = models.CharField(max_length=255,blank=True)
     last_login = models.DateTimeField(blank=True, null=True)
@@ -61,3 +62,71 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     
     class Meta:
         db_table = 'user_profile'
+
+
+class Role(models.Model):
+    role_id = models.AutoField(primary_key=True)
+    role_name = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.role_name
+    
+    class Meta:
+        db_table = 'role'
+
+class Category(models.Model):
+    category_id = models.AutoField(primary_key=True)
+    category_name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.category_name
+
+    class Meta:
+        db_table = 'category'
+
+# class Courses(models.Model):
+#     course_id = models.AutoField(primary_key=True)
+#     course_name = models.CharField(max_length=255, blank=True)
+#     category_id = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+#     course_description = models.CharField(max_length=255, blank=True)
+#     course_image = models.URLField(max_length=255, blank=True)
+
+#     def __str__(self):
+#         return self.course_name
+    
+#     class Meta:
+#         db_table = 'course'
+
+
+# class Course(models.Model):
+#     category=models.ForeignKey(Category, on_delete=models.CASCADE)
+#     teacher=models.ForeignKey(AppUser, on_delete=models.CASCADE,related_name='teacher_courses')
+#     title=models.CharField(max_length=150)
+#     description=models.TextField()
+#     featured_img=models.ImageField(upload_to='course_img/',blank=True)
+#     techs=models.TextField(blank=True)
+
+
+#     def __str__(self):
+#         return self.title
+
+# from django.db import models
+
+class Course(models.Model):
+    name = models.CharField(max_length=100,blank=True)
+    description = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    # user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Enrollment(models.Model):
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    ROLE_CHOICES = [
+        (1, 'admin'),
+        (2, 'editor'),
+        (3, 'viewer')
+    ]
+    role = models.IntegerField(choices=ROLE_CHOICES)

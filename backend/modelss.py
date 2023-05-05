@@ -75,6 +75,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    role_id = models.IntegerField(blank=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
     created_ip = models.CharField(max_length=255,blank=True)
     last_login = models.DateTimeField(blank=True, null=True)

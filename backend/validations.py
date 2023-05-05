@@ -35,7 +35,7 @@ def custom_validation(data):
         errors['email'] = 'This email address is already in use. Please choose another one.'
     
     if not password and not google_id:
-        errors['password'] = 'Please provide a password or a Google ID.'
+        errors['password'] = 'Please provide a password.'
     elif not password and google_id:
         password = google_id
     
