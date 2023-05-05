@@ -32,6 +32,9 @@ CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
+    "user",
+    "course",
+    "enrollment",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -101,7 +104,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = "backend.AppUser"
+AUTH_USER_MODEL = "user.AppUser"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
